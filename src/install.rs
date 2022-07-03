@@ -509,12 +509,8 @@ async fn prepare_build(
     mut actions: Actions<'_>,
     srcinfo: Option<&Srcinfo>,
 ) -> Result<BuildInfo> {
-    if !actions.build.is_empty() && nix::unistd::getuid().is_root() {
-        bail!(tr!("can't install AUR package as root"));
-    }
-
     let conflicts = check_actions(config, &mut actions, srcinfo)?;
-
+  
     print_warnings(config, cache, Some(&actions));
 
     if actions.build.is_empty() && actions.install.is_empty() {
